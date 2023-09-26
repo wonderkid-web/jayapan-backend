@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -36,7 +36,7 @@ model transaksikeluar {
   created_at DateTime @default(now())
   obat       obat     @relation(fields: [obatId], references: [id], map: "TransaksiKeluar_obatId_fkey")
 
-  @@index([obatId], map: "TransaksiKeluar_obatId_fkey")
+  @@index([obatId])
 }
 
 model transaksimasuk {
@@ -46,5 +46,5 @@ model transaksimasuk {
   created_at DateTime @default(now())
   obat       obat     @relation(fields: [obatId], references: [id], map: "TransaksiMasuk_obatId_fkey")
 
-  @@index([obatId], map: "TransaksiMasuk_obatId_fkey")
+  @@index([obatId])
 }

@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon index"
+    "start": "npx nodemon index",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
