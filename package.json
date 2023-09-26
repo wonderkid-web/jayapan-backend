@@ -4,9 +4,12 @@
   "type": "module",
   "description": "",
   "main": "index.js",
+  "engines": {
+     "node":"18.x",
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon index",
+    "start": "node index.js",
     "postinstall": "prisma generate"
   },
   "keywords": [],
