@@ -16,15 +16,15 @@ const router = express.Router()
 // Obat
 router.get('/obat', getAllObat)
 router.post('/obat', createObat)
-router.delete('/obat', deleteObatById)
+router.delete('/obat/:id', deleteObatById)
 
 // Transaksi Masuk
 router.get('/purchases', getPurchases)
-router.post('/purchase', createPurchases)
+router.patch('/purchase', createPurchases)
 
 // Transaksi Keluar
 router.get('/sales', getSales)
-router.post('/sale', createSale)
+router.patch('/sale', createSale)
 
 // Jenis
 router.post('/jenis', createJenis)

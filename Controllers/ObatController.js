@@ -25,12 +25,12 @@ export const getAllObat = async (req, res) => {
 };
 
 export const createObat = async (req, res) => {
-  const { id, nama, jenis, satuan, created_at } = req.body;
+  const { nama, jenis, harga, stock, satuan } = req.body;
   try {
     const totalObat = await prisma.obat.count();
 
     const obat = await prisma.obat.create({
-      data: { id, nama, jenis, satuan, created_at },
+      data: { nama, jenis, harga: Number(harga), stock:Number(stock), satuan },
     });
 
     const currentTotalObat = await prisma.obat.count();
@@ -49,7 +49,7 @@ export const createObat = async (req, res) => {
 };
 
 export const deleteObatById = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const data = await prisma.obat.delete({
       where: { id },
@@ -90,14 +90,14 @@ export const updateObatById = async (req, res) => {
 
 export const getSales = async (req, res) => {
   try {
-    const data = await prisma.transaksiKeluar.findMany({ include: { obat: {
+    const data = await prisma.transaksikeluar.findMany({ include: { obat: {
       select: {
         nama: true
       }
     } } });
-    const total = await prisma.transaksiKeluar.count()
+    // const total = await prisma.transaksiKeluar.count()
     if (data) {
-        res.status(200).json({ data, total, status: 200 });
+        res.status(200).json({ data, status: 200 });
       } else {
         throw new Error("Transaksi Keluar Gagal!");
       }
@@ -111,14 +111,14 @@ export const getSales = async (req, res) => {
 
 export const getPurchases = async (req, res) => {
   try {
-    const data = await prisma.transaksiMasuk.findMany({ include: { obat: {
+    const data = await prisma.transaksimasuk.findMany({ include: { obat: {
       select: {
         nama: true
       }
     } } });
-    const total = await prisma.transaksiMasuk.count()
+    // const total = await prisma.transaksiMasuk.count()
     if (data) {
-        res.status(200).json({ data, total, status: 200 });
+        res.status(200).json({ data, status: 200 });
       } else {
         throw new Error("Transaksi Keluar Gagal!");
       }
@@ -137,7 +137,7 @@ export const createSale = async (req, res) => {
       where: { id },
       data: {
         stock: { decrement: Number(stock) },
-        TransaksiKeluar: {
+        transaksikeluar: {
           create: {
             jumlah: Number(stock),
           },
@@ -164,7 +164,7 @@ export const createPurchases = async (req, res) => {
       where: { id },
       data: {
         stock: { increment: Number(stock) },
-        TransaksiMasuk: {
+        transaksimasuk: {
           create: {
             jumlah: Number(stock),
           },
@@ -172,7 +172,7 @@ export const createPurchases = async (req, res) => {
       },
     });
     if (data) {
-      res.status(200).json({ msg: "Transaksi Keluar Berhasil" });
+      res.status(200).json({ msg: "Transaksi masuk Berhasil" });
     } else {
       throw new Error("Transaksi Keluar Gagal!");
     }
