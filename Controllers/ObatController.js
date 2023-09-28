@@ -131,15 +131,16 @@ export const getPurchases = async (req, res) => {
 };
 
 export const createSale = async (req, res) => {
-  const { id, stock } = req.body;
+  const { id, stock, harga } = req.body;
   try {
     const data = await prisma.obat.update({
       where: { id },
       data: {
         stock: { decrement: Number(stock) },
-        transaksikeluar: {
+         transaksiKeluar: {
           create: {
             jumlah: Number(stock),
+            nominal: Number(harga) * Number(stock)
           },
         },
       },
@@ -158,7 +159,7 @@ export const createSale = async (req, res) => {
 };
 
 export const createPurchases = async (req, res) => {
-  const { id, stock } = req.body;
+  const { id, stock, harga } = req.body;
   try {
     const data = await prisma.obat.update({
       where: { id },
@@ -167,6 +168,7 @@ export const createPurchases = async (req, res) => {
         transaksimasuk: {
           create: {
             jumlah: Number(stock),
+            nominal: Number(harga) * Number(stock)
           },
         },
       },
@@ -174,7 +176,7 @@ export const createPurchases = async (req, res) => {
     if (data) {
       res.status(200).json({ msg: "Transaksi masuk Berhasil" });
     } else {
-      throw new Error("Transaksi Keluar Gagal!");
+      throw new Error("Transaksi Masuk Gagal!");
     }
   } catch (e) {
     res.status(404).json({
@@ -211,3 +213,50 @@ export const createSatuan = async (req, res) => {
     });
   }
 };
+
+
+// TotalPendapatan
+
+export const getAllReveanue = async (req, res) =>{
+  try{
+    const totalNominal = await prisma.transaksimasuk.aggregate({
+      aggregate: {
+        sum: {
+          field: "nominal",
+        },
+      },
+    });
+
+    res.status(200).json({
+      data: totalNominal
+    })
+   
+  } catch (e) {
+    res.status(404).json({
+      msg: e.message,
+      status: 404,
+    });
+  }
+}
+
+export const getAllExpense = async (req, res) =>{
+  try{
+    const totalNominal = await prisma.transaksiKeluar.aggregate({
+      aggregate: {
+        sum: {
+          field: "nominal",
+        },
+      },
+    });
+
+    res.status(200).json({
+      data: totalNominal
+    })
+   
+  } catch (e) {
+    res.status(404).json({
+      msg: e.message,
+      status: 404,
+    });
+  }
+}
