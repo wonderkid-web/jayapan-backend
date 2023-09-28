@@ -220,11 +220,7 @@ export const createSatuan = async (req, res) => {
 export const getAllReveanue = async (req, res) =>{
   try{
     const totalNominal = await prisma.transaksiMasuk.aggregate({
-      aggregate: {
-        sum: {
-          field: "nominal",
-        },
-      },
+      _sum:{ nominal: true}
     });
 
     res.status(200).json({
@@ -242,11 +238,7 @@ export const getAllReveanue = async (req, res) =>{
 export const getAllExpense = async (req, res) =>{
   try{
     const totalNominal = await prisma.transaksiKeluar.aggregate({
-      aggregate: {
-        sum: {
-          field: "nominal",
-        },
-      },
+       _sum: { nominal: true }
     });
 
     res.status(200).json({
