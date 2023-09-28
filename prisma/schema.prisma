@@ -13,7 +13,7 @@ model jenis {
 }
 
 model obat {
-  id              String            @default(uuid()) @id
+  id              String            @id @default(uuid())
   nama            String
   jenis           String
   satuan          String
@@ -33,6 +33,7 @@ model transaksikeluar {
   id         String   @id @default(uuid())
   obatId     String
   jumlah     Int
+  nominal    Int
   created_at DateTime @default(now())
   obat       obat     @relation(fields: [obatId], references: [id], map: "TransaksiKeluar_obatId_fkey")
 
@@ -43,6 +44,7 @@ model transaksimasuk {
   id         String   @id @default(uuid())
   obatId     String
   jumlah     Int
+  nominal    Int
   created_at DateTime @default(now())
   obat       obat     @relation(fields: [obatId], references: [id], map: "TransaksiMasuk_obatId_fkey")
 
