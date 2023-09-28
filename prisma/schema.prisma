@@ -20,8 +20,8 @@ model obat {
   harga           Int
   created_at      DateTime          @default(now())
   stock           Int
-  transaksikeluar transaksikeluar[]
-  transaksimasuk  transaksimasuk[]
+  transaksikeluar transaksiKeluar[]
+  transaksimasuk  transaksiMasuk[]
 }
 
 model satuan {
