@@ -9,7 +9,8 @@ import {
     createPurchases,
     getSales,
     getPurchases,
-    getAllReveanue
+    getAllReveanue,
+    getAllExpense
 } from "../Controllers/ObatController.js"
 
 const router = express.Router()
@@ -36,6 +37,8 @@ router.post('/satuan', createSatuan)
 // TotalPendapatan
 router.get('/reveanue', getAllReveanue)
 
+// Total Pengeluaran
+router.get('/expense', getAllExpense)
 
 
 export default router
