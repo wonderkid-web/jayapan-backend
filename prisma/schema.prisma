@@ -29,7 +29,7 @@ model satuan {
   satuan String
 }
 
-model transaksikeluar {
+model transaksiKeluar {
   id         String   @id @default(uuid())
   obatId     String
   jumlah     Int
@@ -40,7 +40,7 @@ model transaksikeluar {
   @@index([obatId])
 }
 
-model transaksimasuk {
+model transaksiMasuk {
   id         String   @id @default(uuid())
   obatId     String
   jumlah     Int
